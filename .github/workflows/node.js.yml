@@ -27,3 +27,13 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm exec -c "prettier --check ."
+  vitest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: "package.json"
+          cache: "npm"
+      - run: npm ci
+      - run: npm exec -c "vitest run"
