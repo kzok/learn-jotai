@@ -1,11 +1,13 @@
 import React from "react";
+import { Provider } from "jotai/react";
 import { createRoot } from "react-dom/client";
-import { greet } from "./greet";
+import { Page } from "./app";
 
 const rootElement = document.getElementById("root")!;
-
 createRoot(rootElement).render(
   <React.StrictMode>
-    <p>{greet("vite")}</p>
+    <Provider>
+      <Page />
+    </Provider>
   </React.StrictMode>
 );

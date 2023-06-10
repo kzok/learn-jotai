@@ -1,0 +1,13 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.textInput {
+  flex: 1 1 auto;
+}
+
+.deleteButton {
+  color: #c41c1c;
+}
