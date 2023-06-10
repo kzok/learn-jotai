@@ -4,6 +4,8 @@ export type TodoItem = Readonly<{
   text: string;
 }>;
 
+export type LoadingKind = "saving" | "loading";
+
 export type FilterKind = "all" | "undone" | "done";
 
 export type Actions = Readonly<{
@@ -32,4 +34,8 @@ export type Actions = Readonly<{
    * @returns
    */
   updateFilter: (kind: FilterKind) => void;
+  /** save current state to localStorage. */
+  save: () => Promise<void>;
+  /** load current state from localStorage. */
+  load: () => Promise<void>;
 }>;

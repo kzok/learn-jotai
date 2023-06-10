@@ -1,4 +1,4 @@
-import { FilterKind, useActions, useFilter } from "./store";
+import { FilterKind, useActions, useFilter, useLoadingStatus } from "./store";
 import { memo } from "react";
 import styles from "./control-section.module.scss";
 
@@ -32,12 +32,41 @@ const FilterRow: React.FC = () => {
 };
 
 export const ControlSection: React.FC = memo(() => {
-  const { addTodo, deleteAllDoneItems } = useActions();
+  const { addTodo, deleteAllDoneItems, save, load } = useActions();
+  const loading = useLoadingStatus();
+  const disabled = loading != null;
+
   return (
     <>
       <div className={styles["row"]}>
-        <button onClick={addTodo}>Add item</button>
-        <button onClick={deleteAllDoneItems}>Delete all done</button>
+        <button
+          onClick={addTodo}
+          disabled={disabled}
+          title="add item to todo list"
+        >
+          Add
+        </button>
+        <button
+          onClick={deleteAllDoneItems}
+          disabled={disabled}
+          title="delete all done items"
+        >
+          Delete done
+        </button>
+        <button
+          onClick={save}
+          disabled={disabled}
+          title="save items to localStorage"
+        >
+          {loading === "saving" ? "Saving..." : "Save"}
+        </button>
+        <button
+          onClick={load}
+          disabled={disabled}
+          title="load items from localStorage"
+        >
+          {loading === "loading" ? "Loading..." : "Load"}
+        </button>
       </div>
       <FilterRow />
     </>

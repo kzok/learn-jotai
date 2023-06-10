@@ -1,15 +1,26 @@
-import { useFilteredTodoItems, useActions, TodoItem } from "./store";
+import {
+  useFilteredTodoItems,
+  useActions,
+  TodoItem,
+  useLoadingStatus,
+} from "./store";
 import { memo, useMemo } from "react";
 import styles from "./todo-list.module.scss";
 
 const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {
   const { toggleDone, changeText, deleteItem } = useActions();
-  const disabledText = useMemo((): boolean => item.done, [item]);
+  const loading = useLoadingStatus();
+  const disabled = loading != null;
+  const disabledText = useMemo(
+    (): boolean => item.done || disabled,
+    [item, disabled]
+  );
   return (
     <div className={styles["item"]}>
       <input
         type="checkbox"
         checked={item.done}
+        disabled={disabled}
         onChange={() => toggleDone(item.id)}
       />
       <input
@@ -22,6 +33,7 @@ const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {
       />
       <button
         className={styles["deleteButton"]}
+        disabled={disabled}
         onClick={() => deleteItem(item.id)}
       >
         delete

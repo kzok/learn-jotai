@@ -1,9 +1,17 @@
 import { atom } from "jotai";
-import { TodoItem, FilterKind } from "./types";
+import { TodoItem, FilterKind, LoadingKind } from "./types";
 
+/** @package */
 export const todoItemsAtom = atom<readonly TodoItem[]>([]);
 
+/** @package */
 export const filterAtom = atom<FilterKind>("all");
+
+/**
+ * @package
+ * null = Nothing is loading.
+ */
+export const loadingAtom = atom<LoadingKind | null>(null);
 
 export const filteredItemsAtom = atom((get): readonly TodoItem[] => {
   const filter = get(filterAtom);
