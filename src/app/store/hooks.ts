@@ -1,10 +1,12 @@
 import { atom } from "jotai";
 import { useAtomValue, useSetAtom, useStore } from "jotai/react";
-import { TodoItem, Actions } from "./types";
-import { todoAtom } from "./atoms";
+import { Actions } from "./types";
+import { filterAtom, filteredItemsAtom } from "./atoms";
 import { createActions } from "./create-actions";
 
-export const useTodoItems = (): readonly TodoItem[] => useAtomValue(todoAtom);
+export const useFilteredTodoItems = () => useAtomValue(filteredItemsAtom);
+
+export const useFilter = () => useAtomValue(filterAtom);
 
 const actionsAtom = atom<Actions | null>(null);
 export const useActions = (): Actions => {

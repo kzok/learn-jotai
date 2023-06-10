@@ -6,6 +6,7 @@ export const Page: React.FC = () => (
     <h1>An example TODO app</h1>
     <hr />
     <ControlSection />
+    <hr />
     <TodoList />
   </>
 );

@@ -1,4 +1,4 @@
-import { useTodoItems, useActions, TodoItem } from "./store";
+import { useFilteredTodoItems, useActions, TodoItem } from "./store";
 import { memo, useMemo } from "react";
 import styles from "./todo-list.module.scss";
 
@@ -31,7 +31,7 @@ const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {
 });
 
 export const TodoList: React.FC = memo(() => {
-  const todoItems = useTodoItems();
+  const todoItems = useFilteredTodoItems();
   if (todoItems.length === 0) {
     return <p>There is no item.</p>;
   }

@@ -4,6 +4,8 @@ export type TodoItem = Readonly<{
   text: string;
 }>;
 
+export type FilterKind = "all" | "undone" | "done";
+
 export type Actions = Readonly<{
   /** add todo item */
   addTodo: () => void;
@@ -23,4 +25,11 @@ export type Actions = Readonly<{
    * @returns
    */
   deleteItem: (id: string) => void;
+  /** delete all done items */
+  deleteAllDoneItems: () => void;
+  /**
+   * @param kind filter kind to update
+   * @returns
+   */
+  updateFilter: (kind: FilterKind) => void;
 }>;
