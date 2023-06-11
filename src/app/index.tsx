@@ -1,5 +1,5 @@
-import { usePageInitialization } from "./store";
 import { ControlSection } from "./control-section";
+import { usePageInitialization } from "./store";
 import { TodoList } from "./todo-list";
 
 export const Page: React.FC = () => {

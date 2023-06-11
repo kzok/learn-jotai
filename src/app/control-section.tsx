@@ -1,6 +1,6 @@
-import { FilterKind, useActions, useFilter, useLoadingStatus } from "./store";
 import { memo } from "react";
 import styles from "./control-section.module.scss";
+import { FilterKind, useActions, useFilter, useLoadingStatus } from "./store";
 
 const filterKindPair: readonly Readonly<{
   kind: FilterKind;

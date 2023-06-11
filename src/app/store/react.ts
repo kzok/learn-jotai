@@ -1,9 +1,9 @@
 import { atom } from "jotai";
 import { useAtomValue, useStore } from "jotai/react";
 import { useMemo } from "react";
-import { Actions } from "./types";
 import { filterAtom, filteredItemsAtom, loadingAtom } from "./atoms";
 import { createActions } from "./create-actions";
+import { Actions } from "./types";
 
 const LOCAL_STORAGE_KEY = "TODO_APP_DATA";
 

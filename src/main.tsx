@@ -1,5 +1,5 @@
-import React from "react";
 import { Provider } from "jotai/react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { Page } from "./app";
 

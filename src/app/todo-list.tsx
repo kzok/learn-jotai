@@ -1,10 +1,10 @@
+import { memo, useMemo } from "react";
 import {
   useFilteredTodoItems,
   useActions,
   TodoItem,
   useLoadingStatus,
 } from "./store";
-import { memo, useMemo } from "react";
 import styles from "./todo-list.module.scss";
 
 const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {

@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
     "@types/uuid": "^9.0.2",

@@ -1,8 +1,8 @@
 import { v4 as uuidV4 } from "uuid";
 import { z } from "zod";
-import { Actions, LoadingKind } from "./types";
-import { todoItemsAtom, filterAtom, loadingAtom } from "./atoms";
 import { Store, createUpdateAtom } from "../../utils/jotai-helpers";
+import { todoItemsAtom, filterAtom, loadingAtom } from "./atoms";
+import { Actions, LoadingKind } from "./types";
 
 type ExternalApi = Readonly<{
   save: (data: string) => Promise<void>;
