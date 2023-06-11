@@ -1,50 +1,36 @@
 import { v4 as uuidV4 } from "uuid";
-import { z } from "zod";
 import { Store, createUpdateAtom } from "../../utils/jotai-helpers";
-import { todoItemsAtom, filterAtom, loadingAtom } from "./atoms";
-import { Actions, LoadingKind } from "./types";
-
-type ExternalApi = Readonly<{
-  save: (data: string) => Promise<void>;
-  load: () => Promise<string | null>;
-  alert: (text: string) => void;
-}>;
-
-const dataSchema = z.array(
-  z.object({
-    id: z.string(),
-    done: z.boolean(),
-    text: z.string(),
-  })
-);
+import { createAtoms } from "./create-atoms";
+import { ExternalApi, Actions, LoadingKind } from "./types";
 
 export const createActions = (
+  atoms: ReturnType<typeof createAtoms>,
   store: Store,
   externalApi: ExternalApi
 ): Actions => {
   const updateAtom = createUpdateAtom(store);
 
   const wrapLoading = async (loading: LoadingKind, f: () => Promise<void>) => {
-    if (store.get(loadingAtom) != null) {
+    if (store.get(atoms.loading) != null) {
       return; // do nothing if there is something on going.
     }
     try {
-      store.set(loadingAtom, loading);
+      store.set(atoms.loading, loading);
       await f();
     } finally {
-      store.set(loadingAtom, null);
+      store.set(atoms.loading, null);
     }
   };
 
   return {
     addTodo: () => {
-      updateAtom(todoItemsAtom, (draft) => {
+      updateAtom(atoms.todoItems, (draft) => {
         const id = uuidV4();
         draft.push({ id, text: "", done: false });
       });
     },
     toggleDone: (id) => {
-      updateAtom(todoItemsAtom, (draft) => {
+      updateAtom(atoms.todoItems, (draft) => {
         for (const draftItem of draft) {
           if (draftItem.id === id) {
             draftItem.done = !draftItem.done;
@@ -53,7 +39,7 @@ export const createActions = (
       });
     },
     changeText: (id, text) => {
-      updateAtom(todoItemsAtom, (draft) => {
+      updateAtom(atoms.todoItems, (draft) => {
         for (const draftItem of draft) {
           if (draftItem.id === id) {
             draftItem.text = text;
@@ -63,32 +49,29 @@ export const createActions = (
     },
     deleteItem: (id) => {
       store.set(
-        todoItemsAtom,
-        store.get(todoItemsAtom).filter((item) => item.id !== id)
+        atoms.todoItems,
+        store.get(atoms.todoItems).filter((item) => item.id !== id)
       );
     },
     deleteAllDoneItems: () => {
       store.set(
-        todoItemsAtom,
-        store.get(todoItemsAtom).filter((item) => !item.done)
+        atoms.todoItems,
+        store.get(atoms.todoItems).filter((item) => !item.done)
       );
     },
-    updateFilter: (kind) => store.set(filterAtom, kind),
+    updateFilter: (kind) => store.set(atoms.filter, kind),
     save: () =>
       wrapLoading("saving", async () => {
-        await externalApi.save(JSON.stringify(store.get(todoItemsAtom)));
+        await externalApi.save(store.get(atoms.todoItems));
       }),
     load: () =>
       wrapLoading("loading", async () => {
         try {
-          const rawData = await externalApi.load();
-          if (rawData == null) {
-            return;
-          }
-          store.set(todoItemsAtom, dataSchema.parse(JSON.parse(rawData)));
+          const data = await externalApi.load();
+          store.set(atoms.todoItems, data);
         } catch (e) {
           externalApi.alert(`Error: fail to load.\n${e}`);
         }
       }),
-  };
+  } as const;
 };

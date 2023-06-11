@@ -1,23 +1,17 @@
 import { useState } from "react";
 import { ControlSection } from "./control-section";
 import styles from "./index.module.scss";
-import { usePageInitialization } from "./store";
+import { ScopeProvider } from "./store";
 import { TodoList } from "./todo-list";
 
-const AppContent: React.FC = () => {
-  const status = usePageInitialization();
-  if (status === "pending") {
-    return <p>loading</p>;
-  }
-  return (
-    <>
-      <hr />
-      <ControlSection />
-      <hr />
-      <TodoList />
-    </>
-  );
-};
+const AppContent: React.FC = () => (
+  <ScopeProvider fallback={<p>loading</p>}>
+    <hr />
+    <ControlSection />
+    <hr />
+    <TodoList />
+  </ScopeProvider>
+);
 
 export const Page: React.FC = () => {
   const [mount, setMount] = useState(true);

@@ -1,15 +1,12 @@
+import { useAtomValue } from "jotai/react";
 import { memo, useMemo } from "react";
-import {
-  useFilteredTodoItems,
-  useActions,
-  TodoItem,
-  useLoadingStatus,
-} from "./store";
+import { useActions, TodoItem, useScopedAtoms } from "./store";
 import styles from "./todo-list.module.scss";
 
 const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {
   const { toggleDone, changeText, deleteItem } = useActions();
-  const loading = useLoadingStatus();
+  const atoms = useScopedAtoms();
+  const loading = useAtomValue(atoms.loading);
   const disabled = loading != null;
   const disabledText = useMemo(
     (): boolean => item.done || disabled,
@@ -43,7 +40,8 @@ const TodoItemRow: React.FC<{ item: TodoItem }> = memo(({ item }) => {
 });
 
 export const TodoList: React.FC = memo(() => {
-  const todoItems = useFilteredTodoItems();
+  const atoms = useScopedAtoms();
+  const todoItems = useAtomValue(atoms.filteredItems);
   if (todoItems.length === 0) {
     return <p>There is no item.</p>;
   }
