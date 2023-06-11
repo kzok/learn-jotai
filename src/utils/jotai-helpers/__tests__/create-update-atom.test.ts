@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
 import { atom, createStore } from "jotai";
+import { describe, it, expect } from "vitest";
 import { createUpdateAtom } from "../create-update-atom";
 
 describe(createUpdateAtom.name, () => {

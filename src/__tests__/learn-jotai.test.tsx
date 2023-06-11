@@ -1,12 +1,12 @@
-import { it, expect, describe, beforeEach, vitest, afterEach } from "vitest";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 import { atom, createStore } from "jotai";
-import React, { Suspense, useRef } from "react";
-import { atomWithDefault } from "jotai/utils";
 import { Provider, useAtomValue, useSetAtom, useStore } from "jotai/react";
 import { useHydrateAtoms } from "jotai/react/utils";
-import { setTimeout } from "timers/promises";
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import { atomWithDefault } from "jotai/utils";
+import React, { Suspense, useRef } from "react";
 import { useState, useEffect } from "react";
+import { setTimeout } from "timers/promises";
+import { it, expect, describe, beforeEach, vitest, afterEach } from "vitest";
 
 describe("vanilla", () => {
   it("primitive atom works.", () => {
