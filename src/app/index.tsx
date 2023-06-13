@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { ControlSection } from "./control-section";
 import styles from "./index.module.scss";
-import { ScopeProvider } from "./store";
+import { StoreProvider } from "./store";
 import { TodoList } from "./todo-list";
 
 const AppContent: React.FC = () => (
-  <ScopeProvider fallback={<p>loading</p>}>
+  <StoreProvider fallback={<p>loading</p>}>
     <hr />
     <ControlSection />
     <hr />
     <TodoList />
-  </ScopeProvider>
+  </StoreProvider>
 );
 
 export const Page: React.FC = () => {
