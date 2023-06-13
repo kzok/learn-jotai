@@ -1,8 +1,7 @@
-import { useStore } from "jotai/react";
+import { useStore, useAtomValue } from "jotai/react";
 import { createContext, useContext } from "react";
 import { useAsync } from "react-use";
 import { z } from "zod";
-import { ReadonlyAtoms } from "../../utils/jotai-helpers";
 import { createActions } from "./create-actions";
 import { createAtoms } from "./create-atoms";
 import { ExternalApi } from "./types";
@@ -20,13 +19,13 @@ const LOCAL_STORAGE_KEY = "TODO_APP_DATA";
 const sleep = (ms: number) => new Promise<void>((done) => setTimeout(done, ms));
 
 type ContextValue = Readonly<{
-  atoms: ReadonlyAtoms<ReturnType<typeof createAtoms>>;
+  atoms: ReturnType<typeof createAtoms>;
   actions: ReturnType<typeof createActions>;
 }>;
 
 const context = createContext<ContextValue | null>(null);
 
-export const ScopeProvider: React.FC<{
+export const StoreProvider: React.FC<{
   fallback: React.ReactNode;
   children: React.ReactNode;
 }> = (props) => {
@@ -72,8 +71,14 @@ const useContextValue = (): ContextValue => {
   return value;
 };
 
-export const useActions = (): ContextValue["actions"] =>
-  useContextValue().actions;
+/** use actions hooks */
+export const useActions = () => useContextValue().actions;
 
-export const useScopedAtoms = (): ContextValue["atoms"] =>
-  useContextValue().atoms;
+const useAtoms = () => useContextValue().atoms;
+
+/** use atom value hooks */
+export const useValues = {
+  filter: () => useAtomValue(useAtoms().filter),
+  loading: () => useAtomValue(useAtoms().loading),
+  filteredItems: () => useAtomValue(useAtoms().filteredItems),
+} as const;

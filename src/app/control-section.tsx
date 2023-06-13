@@ -1,7 +1,6 @@
-import { useAtomValue } from "jotai/react";
 import { memo } from "react";
 import styles from "./control-section.module.scss";
-import { FilterKind, useActions, useScopedAtoms } from "./store";
+import { FilterKind, useActions, useValues } from "./store";
 
 const filterKindPair: readonly Readonly<{
   kind: FilterKind;
@@ -13,8 +12,7 @@ const filterKindPair: readonly Readonly<{
 ];
 
 const FilterRow: React.FC = () => {
-  const atoms = useScopedAtoms();
-  const filter = useAtomValue(atoms.filter);
+  const filter = useValues.filter();
   const { updateFilter } = useActions();
   return (
     <div className={styles["row"]}>
@@ -35,8 +33,7 @@ const FilterRow: React.FC = () => {
 
 export const ControlSection: React.FC = memo(() => {
   const { addTodo, deleteAllDoneItems, save, load } = useActions();
-  const atoms = useScopedAtoms();
-  const loading = useAtomValue(atoms.loading);
+  const loading = useValues.loading();
   const disabled = loading != null;
 
   return (
